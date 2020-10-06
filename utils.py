@@ -56,7 +56,17 @@ def zca_whiten(X,k_dim):
 
 
 
-
+def zca_whiten5(X,k_dim):
+	EPS = 10e-5
+	mu=np.mean(X,0,keepdims=True)
+	X=X-mu
+	cov = np.dot(X.T, X)/X.shape[0]
+	E ,d, V = np.linalg.svd(cov)
+	k=k_dim#(d>svt).sum()
+	D = np.diag(1. / np.sqrt(d + EPS))
+	W = np.dot(E[:,:k], D[:k,:k])
+	X_white = np.dot(X, W)
+	return X_white,E,d,mu,W
 
 
 	
